@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 - Health Assistant</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f3f9fc;
+            color: #1d2b36;
+            min-height: 100vh;
+        }
+
+
+        /* HEADER */
+
+        header {
+
+            height: 70px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0077b6,
+                    #00a6d6
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .back-btn {
+
+            border: none;
+
+            background: white;
+
+            color: #0077b6;
+
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #eaf8fc;
+
+        }
+
+
+        /* MAIN */
+
+        main {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 30px 20px;
+
+        }
+
+
+        .page-title {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .page-title h1 {
+
+            font-size: 30px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .page-title p {
+
+            color: #71808c;
+
+        }
+
+
+        /* ASSISTANT LAYOUT */
+
+        .assistant-layout {
+
+            display: grid;
+
+            grid-template-columns: 280px 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        /* SIDE PANEL */
+
+        .side-panel {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+            height: fit-content;
+
+        }
+
+
+        .assistant-profile {
+
+            text-align: center;
+
+            padding-bottom: 20px;
+
+            border-bottom:
+                1px solid #e5edf2;
+
+        }
+
+
+        .robot {
+
+            width: 80px;
+
+            height: 80px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background: #e9f7fc;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 45px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .assistant-profile h2 {
+
+            color: #0077b6;
+
+            font-size: 20px;
+
+        }
+
+
+        .online {
+
+            color: #16834f;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+
+        }
+
+
+        /* QUICK QUESTIONS */
+
+        .quick-title {
+
+            margin-top: 20px;
+
+            margin-bottom: 12px;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+        }
+
+
+        .quick-btn {
+
+            width: 100%;
+
+            border: 1px solid #dcebf1;
+
+            background: #f7fbfd;
+
+            color: #405c6b;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            margin-bottom: 8px;
+
+            font-size: 13px;
+
+        }
+
+
+        .quick-btn:hover {
+
+            background: #eaf7fc;
+
+            border-color: #9bd3e5;
+
+        }
+
+
+        /* CHAT */
+
+        .chat-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+            overflow: hidden;
+
+            display: flex;
+
+            flex-direction: column;
+
+            height: 650px;
+
+        }
+
+
+        /* CHAT HEADER */
+
+        .chat-header {
+
+            background: #f5fbfd;
+
+            padding: 15px 20px;
+
+            border-bottom:
+                1px solid #e1edf2;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .chat-header strong {
+
+            color: #0077b6;
+
+        }
+
+
+        .clear-btn {
+
+            border: none;
+
+            background: transparent;
+
+            color: #71808c;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+        }
+
+
+        /* MESSAGES */
+
+        .messages {
+
+            flex: 1;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            background: #fcfeff;
+
+        }
+
+
+        .message {
+
+            display: flex;
+
+            gap: 10px;
+
+            max-width: 80%;
+
+        }
+
+
+        .message.bot {
+
+            align-self: flex-start;
+
+        }
+
+
+        .message.user {
+
+            align-self: flex-end;
+
+            flex-direction: row-reverse;
+
+        }
+
+
+        .avatar {
+
+            width: 36px;
+
+            height: 36px;
+
+            min-width: 36px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background: #e8f6fb;
+
+            font-size: 18px;
+
+        }
+
+
+        .user .avatar {
+
+            background: #0077b6;
+
+            color: white;
+
+        }
+
+
+        .bubble {
+
+            padding: 12px 15px;
+
+            border-radius: 13px;
+
+            background: #eaf6fb;
+
+            color: #304b59;
+
+            line-height: 1.5;
+
+            font-size: 14px;
+
+        }
+
+
+        .user .bubble {
+
+            background: #0077b6;
+
+            color: white;
+
+            border-radius: 13px 13px 3px 13px;
+
+        }
+
+
+        .bot .bubble {
+
+            border-radius: 13px 13px 13px 3px;
+
+        }
+
+
+        /* TYPING */
+
+        .typing {
+
+            display: none;
+
+            padding: 0 20px 12px;
+
+            color: #7a8c97;
+
+            font-size: 12px;
+
+        }
+
+
+        /* INPUT */
+
+        .chat-input-area {
+
+            border-top:
+                1px solid #e1edf2;
+
+            padding: 15px;
+
+            display: flex;
+
+            gap: 8px;
+
+            background: white;
+
+        }
+
+
+        #userInput {
+
+            flex: 1;
+
+            border: 1px solid #cddde4;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            outline: none;
+
+            font-size: 14px;
+
+        }
+
+
+        #userInput:focus {
+
+            border-color: #0077b6;
+
+        }
+
+
+        .voice-btn,
+        .send-btn {
+
+            width: 45px;
+
+            height: 45px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+        }
+
+
+        .voice-btn {
+
+            background: #eaf6fb;
+
+            color: #0077b6;
+
+        }
+
+
+        .send-btn {
+
+            background: #0077b6;
+
+            color: white;
+
+        }
+
+
+        .voice-btn:hover,
+        .send-btn:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* WARNING */
+
+        .medical-note {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #fff8e6;
+
+            border-left: 4px solid #e0a000;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            color: #725b18;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width: 800px) {
+
+            .assistant-layout {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .side-panel {
+
+                order: 2;
+
+            }
+
+
+            .chat-card {
+
+                height: 600px;
+
+            }
+
+        }
+
+
+        @media(max-width: 500px) {
+
+            header {
+
+                padding: 0 18px;
+
+            }
+
+
+            main {
+
+                padding: 20px 12px;
+
+            }
+
+
+            .page-title h1 {
+
+                font-size: 25px;
+
+            }
+
+
+            .message {
+
+                max-width: 90%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ST5
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()">
+
+            ← Dashboard
+
+        </button>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <div class="page-title">
+
+            <h1>
+                🤖 ST5 Health Assistant
+            </h1>
+
+            <p>
+                Ask general health questions and get
+                helpful information from your ST5 assistant.
+            </p>
+
+        </div>
+
+
+
+        <div class="assistant-layout">
+
+
+            <!-- SIDE PANEL -->
+
+            <div class="side-panel">
+
+
+                <div class="assistant-profile">
+
+                    <div class="robot">
+                        🤖
+                    </div>
+
+                    <h2>
+                        ST5 Assistant
+                    </h2>
+
+                    <div class="online">
+                        ● Assistant Ready
+                    </div>
+
+                </div>
+
+
+
+                <div class="quick-title">
+                    Quick Questions
+                </div>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('What is a normal heart rate?')">
+
+                    ❤️ Normal heart rate
+
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('What is blood pressure?')">
+
+                    🩸 Blood pressure
+
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('What is SpO2?')">
+
+                    🫁 What is SpO₂?
+
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('How can I remember my medicines?')">
+
+                    💊 Medicine reminders
+
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('What should I do if I have a fever?')">
+
+                    🌡️ Fever information
+
+                </button>
+
+
+                <button
+                    class="quick-btn"
+                    onclick="quickQuestion('How can I stay healthy?')">
+
+                    ❤️ Healthy habits
+
+                </button>
+
+
+                <div class="medical-note">
+
+                    ⚠️ <strong>Important:</strong>
+                    ST5 Assistant provides general information
+                    only. It does not diagnose diseases or
+                    replace a qualified healthcare professional.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CHAT -->
+
+            <div class="chat-card">
+
+
+                <div class="chat-header">
+
+                    <strong>
+                        💬 Chat with ST5
+                    </strong>
+
+
+                    <button
+                        class="clear-btn"
+                        onclick="clearChat()">
+
+                        Clear Chat
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- MESSAGES -->
+
+                <div
+                    class="messages"
+                    id="messages">
+
+
+                    <!-- FIRST MESSAGE -->
+
+                    <div class="message bot">
+
+                        <div class="avatar">
+                            🤖
+                        </div>
+
+
+                        <div class="bubble">
+
+                            Hello! 👋 I'm your
+                            <strong>ST5 Health Assistant</strong>.
+
+                            <br><br>
+
+                            You can ask me about general
+                            health topics, medicine reminders,
+                            blood pressure, heart rate,
+                            SpO₂ and healthy habits.
+
+                            <br><br>
+
+                            How can I help you today?
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div
+                    class="typing"
+                    id="typing">
+
+                    🤖 ST5 Assistant is typing...
+
+                </div>
+
+
+
+                <!-- INPUT -->
+
+                <div class="chat-input-area">
+
+
+                    <input
+                        type="text"
+                        id="userInput"
+                        placeholder="Type your health question..."
+                        onkeydown="handleEnter(event)">
+
+
+                    <button
+                        class="voice-btn"
+                        onclick="startVoice()"
+                        title="Voice input">
+
+                        🎤
+
+                    </button>
+
+
+                    <button
+                        class="send-btn"
+                        onclick="sendMessage()"
+                        title="Send">
+
+                        ➤
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+
+        /* SEND MESSAGE */
+
+        function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "userInput"
+                );
+
+
+            const text =
+                input.value.trim();
+
+
+            if (!text) {
+
+                return;
+
+            }
+
+
+            addMessage(
+                text,
+                "user"
+            );
+
+
+            input.value = "";
+
+
+            showTyping();
+
+
+            setTimeout(
+                function() {
+
+                    const reply =
+                        getAssistantResponse(
+                            text
+                        );
+
+
+                    hideTyping();
+
+
+                    addMessage(
+                        reply,
+                        "bot"
+                    );
+
+
+                    speak(reply);
+
+                },
+                700
+            );
+
+        }
+
+
+
+        /* ENTER KEY */
+
+        function handleEnter(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                sendMessage();
+
+            }
+
+        }
+
+
+
+        /* ADD MESSAGE */
+
+        function addMessage(
+            text,
+            type
+        ) {
+
+            const messages =
+                document.getElementById(
+                    "messages"
+                );
+
+
+            const message =
+                document.createElement(
+                    "div"
+                );
+
+
+            message.className =
+                "message " + type;
+
+
+            const avatar =
+                type === "bot"
+                    ? "🤖"
+                    : "👤";
+
+
+            message.innerHTML = `
+
+                <div class="avatar">
+                    ${avatar}
+                </div>
+
+                <div class="bubble">
+                    ${formatText(text)}
+                </div>
+
+            `;
+
+
+            messages.appendChild(
+                message
+            );
+
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        }
+
+
+
+        /* FORMAT TEXT */
+
+        function formatText(text) {
+
+            return text
+                .replace(
+                    /\n/g,
+                    "<br>"
+                )
+                .replace(
+                    /\*\*(.*?)\*\*/g,
+                    "<strong>$1</strong>"
+                );
+
+        }
+
+
+
+        /* ASSISTANT RESPONSE */
+
+        function getAssistantResponse(
+            question
+        ) {
+
+            const q =
+                question.toLowerCase();
+
+
+
+            /* HEART RATE */
+
+            if (
+                q.includes("heart rate") ||
+                q.includes("heartbeat") ||
+                q.includes("bpm")
+            ) {
+
+                return `
+                    For many resting adults, a heart rate
+                    around 60–100 beats per minute is commonly
+                    considered a typical range.
+
+                    Heart rate can vary with exercise, stress,
+                    medicines and other factors.
+
+                    If you have concerning symptoms such as
+                    chest pain, severe breathing difficulty,
+                    fainting or severe dizziness, seek urgent
+                    medical attention.
+                `;
+
+            }
+
+
+
+            /* BLOOD PRESSURE */
+
+            if (
+                q.includes("blood pressure") ||
+                q.includes("bp")
+            ) {
+
+                return `
+                    Blood pressure is recorded as systolic
+                    pressure over diastolic pressure, such as
+                    120/80 mmHg.
+
+                    Blood pressure can vary throughout the day.
+                    Repeated unusually high or low readings
+                    should be discussed with a healthcare
+                    professional.
+                `;
+
+            }
+
+
+
+            /* SPO2 */
+
+            if (
+                q.includes("spo2") ||
+                q.includes("oxygen") ||
+                q.includes("blood oxygen")
+            ) {
+
+                return `
+                    SpO₂ is an estimate of the oxygen saturation
+                    of your blood, usually measured with a pulse
+                    oximeter.
+
+                    In many healthy people, readings are commonly
+                    around 95–100%.
+
+                    A persistently low reading, especially with
+                    breathing difficulty or other serious symptoms,
+                    should be medically evaluated.
+                `;
+
+            }
+
+
+
+            /* FEVER */
+
+            if (
+                q.includes("fever") ||
+                q.includes("temperature")
+            ) {
+
+                return `
+                    Fever can occur when the body's temperature
+                    rises in response to infection or another
+                    cause.
+
+                    Stay hydrated and monitor your temperature.
+                    If the fever is severe, persistent, or occurs
+                    with serious symptoms, contact a healthcare
+                    professional.
+                `;
+
+            }
+
+
+
+            /* MEDICINE */
+
+            if (
+                q.includes("medicine") ||
+                q.includes("tablet") ||
+                q.includes("pill")
+            ) {
+
+                return `
+                    You can use the ST5 Medicine page to search
+                    medicine information and the Medicine Reminder
+                    page to schedule your doses.
+
+                    Never take an unknown medicine based only on
+                    an image or an online result. Verify the
+                    medicine and follow instructions from a
+                    qualified healthcare professional.
+                `;
+
+            }
+
+
+
+            /* REMINDER */
+
+            if (
+                q.includes("reminder") ||
+                q.includes("remember")
+            ) {
+
+                return `
+                    ST5 includes a Medicine Reminder page where
+                    you can enter the medicine name, dosage and
+                    scheduled time.
+
+                    The browser can provide reminder and voice
+                    alerts while the reminder page is active.
+                `;
+
+            }
+
+
+
+            /* HEALTHY */
+
+            if (
+                q.includes("healthy") ||
+                q.includes("health") ||
+                q.includes("fitness")
+            ) {
+
+                return `
+                    Some basic healthy habits include eating a
+                    balanced diet, staying physically active,
+                    getting enough sleep, drinking enough water,
+                    avoiding tobacco and attending appropriate
+                    health checkups.
+
+                    Your individual needs can vary, so speak with
+                    a healthcare professional for personalized
+                    advice.
+                `;
+
+            }
+
+
+
+            /* HEADACHE */
+
+            if (
+                q.includes("headache")
+            ) {
+
+                return `
+                    Headaches can have many causes, including
+                    dehydration, stress, lack of sleep or illness.
+
+                    Rest, hydration and a suitable environment
+                    may help some mild headaches.
+
+                    Seek medical attention for a sudden,
+                    extremely severe headache or a headache with
+                    serious symptoms such as weakness, confusion,
+                    fainting or vision problems.
+                `;
+
+            }
+
+
+
+            /* HELLO */
+
+            if (
+                q.includes("hello") ||
+                q.includes("hi") ||
+                q.includes("hey")
+            ) {
+
+                return `
+                    Hello! 👋
+
+                    I'm ready to help with general health
+                    information, medicine reminders and
+                    information about your ST5 system.
+
+                    What would you like to know?
+                `;
+
+            }
+
+
+
+            /* THANK YOU */
+
+            if (
+                q.includes("thank")
+            ) {
+
+                return `
+                    You're welcome! 😊
+
+                    I'm here whenever you need general health
+                    information.
+                `;
+
+            }
+
+
+
+            /* DEFAULT */
+
+            return `
+                I can help with general information about
+                heart rate, blood pressure, SpO₂, temperature,
+                medicines, reminders and healthy habits.
+
+                I cannot diagnose a medical condition or replace
+                a healthcare professional.
+
+                Try asking:
+                "What is a normal heart rate?"
+            `;
+
+        }
+
+
+
+        /* QUICK QUESTION */
+
+        function quickQuestion(
+            question
+        ) {
+
+            document.getElementById(
+                "userInput"
+            ).value = question;
+
+
+            sendMessage();
+
+        }
+
+
+
+        /* TYPING */
+
+        function showTyping() {
+
+            document.getElementById(
+                "typing"
+            ).style.display = "block";
+
+        }
+
+
+        function hideTyping() {
+
+            document.getElementById(
+                "typing"
+            ).style.display = "none";
+
+        }
+
+
+
+        /* TEXT TO SPEECH */
+
+        function speak(text) {
+
+            if (
+                !("speechSynthesis" in window)
+            ) {
+
+                return;
+
+            }
+
+
+            window.speechSynthesis.cancel();
+
+
+            const cleanText =
+                text
+                    .replace(
+                        /<[^>]*>/g,
+                        " "
+                    );
+
+
+            const speech =
+                new SpeechSynthesisUtterance(
+                    cleanText
+                );
+
+
+            speech.rate = 0.9;
+
+            speech.pitch = 1;
+
+            speech.volume = 1;
+
+
+            window.speechSynthesis.speak(
+                speech
+            );
+
+        }
+
+
+
+        /* VOICE INPUT */
+
+        function startVoice() {
+
+            const SpeechRecognition =
+                window.SpeechRecognition ||
+                window.webkitSpeechRecognition;
+
+
+            if (!SpeechRecognition) {
+
+                alert(
+                    "Voice recognition is not supported by this browser. Try Google Chrome."
+                );
+
+                return;
+
+            }
+
+
+            const recognition =
+                new SpeechRecognition();
+
+
+            recognition.lang =
+                "en-IN";
+
+
+            recognition.interimResults =
+                false;
+
+
+            recognition.maxAlternatives =
+                1;
+
+
+            recognition.start();
+
+
+            recognition.onstart =
+                function() {
+
+                    document.getElementById(
+                        "userInput"
+                    ).placeholder =
+                        "Listening...";
+
+                };
+
+
+            recognition.onresult =
+                function(event) {
+
+                    const transcript =
+                        event.results[0][0]
+                            .transcript;
+
+
+                    document.getElementById(
+                        "userInput"
+                    ).value =
+                        transcript;
+
+
+                    sendMessage();
+
+                };
+
+
+            recognition.onerror =
+                function() {
+
+                    alert(
+                        "Could not understand your voice. Please try again."
+                    );
+
+                };
+
+
+            recognition.onend =
+                function() {
+
+                    document.getElementById(
+                        "userInput"
+                    ).placeholder =
+                        "Type your health question...";
+
+                };
+
+        }
+
+
+
+        /* CLEAR CHAT */
+
+        function clearChat() {
+
+            if (
+                !confirm(
+                    "Clear the conversation?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            document.getElementById(
+                "messages"
+            ).innerHTML = `
+
+                <div class="message bot">
+
+                    <div class="avatar">
+                        🤖
+                    </div>
+
+                    <div class="bubble">
+
+                        Hello! 👋 I'm your
+                        <strong>ST5 Health Assistant</strong>.
+
+                        <br><br>
+
+                        How can I help you today?
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /* DASHBOARD */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

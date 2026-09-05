@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 | My Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        :root {
+            --primary: #087ea4;
+            --primary-dark: #05617e;
+            --secondary: #18b7c9;
+            --background: #f4f8fb;
+            --card: #ffffff;
+            --text: #172b3a;
+            --muted: #718096;
+            --border: #e2eaf0;
+            --success: #20a464;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 25px 18px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px 30px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #087ea4, #18b7c9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .logo-text h2 {
+            font-size: 21px;
+            color: var(--text);
+        }
+
+        .logo-text span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #9aa9b5;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            margin: 5px 0;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #607483;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: #eef8fb;
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: #e8f7fa;
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .topbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
+        }
+
+        .page-title h1 {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 7px;
+            height: 7px;
+            background: #ef5350;
+            border-radius: 50%;
+        }
+
+        .top-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #087ea4, #18b7c9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .top-user-text strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .top-user-text span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            padding: 32px 38px 50px;
+            max-width: 1400px;
+        }
+
+        /* ================= PROFILE HERO ================= */
+
+        .profile-hero {
+            background: linear-gradient(120deg, #087ea4, #18b7c9);
+            border-radius: 18px;
+            padding: 30px 35px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(8, 126, 164, 0.18);
+        }
+
+        .profile-main {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .big-avatar {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.18);
+            border: 3px solid rgba(255,255,255,0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .profile-info h2 {
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .profile-status {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #8df0ba;
+            border-radius: 50%;
+        }
+
+        .edit-profile-btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .edit-profile-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* ================= GRID ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.65fr;
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(30, 70, 90, 0.04);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .card-header h3 {
+            font-size: 17px;
+        }
+
+        .card-header span {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ================= INFORMATION ================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-item {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #edf2f5;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #82929d;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #263b49;
+        }
+
+        /* ================= HEALTH PROFILE ================= */
+
+        .health-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .health-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .health-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .health-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: #e8f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .health-left strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .health-left span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .health-value {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* ================= EMERGENCY ================= */
+
+        .emergency-card {
+            margin-top: 22px;
+            border: 1px solid #f1d7d7;
+            background: #fffafa;
+        }
+
+        .emergency-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .emergency-icon {
+            width: 42px;
+            height: 42px;
+            background: #ffe7e7;
+            color: #d64545;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .emergency-header h3 {
+            font-size: 16px;
+        }
+
+        .emergency-header p {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .emergency-contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .contact-box {
+            background: white;
+            border: 1px solid #f0e2e2;
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .contact-box span {
+            font-size: 11px;
+            color: var(--muted);
+            display: block;
+        }
+
+        .contact-box strong {
+            display: block;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* ================= ACCOUNT CARD ================= */
+
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf2f5;
+        }
+
+        .account-row:last-child {
+            border-bottom: none;
+        }
+
+        .account-row div strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .account-row div span {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .verified {
+            background: #e7f8ef;
+            color: var(--success);
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ================= EDIT MODE ================= */
+
+        .edit-area {
+            display: none;
+        }
+
+        .edit-area.active {
+            display: block;
+        }
+
+        .view-area.hidden {
+            display: none;
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .input-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #607483;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            font-size: 13px;
+            background: white;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--primary);
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            padding: 11px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .save-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #edf3f6;
+            color: #526875;
+        }
+
+        /* ================= MOBILE ================= */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+                width: 40px;
+                height: 40px;
+                align-items: center;
+                justify-content: center;
+                background: #eef8fb;
+                border-radius: 8px;
+                color: var(--primary);
+                cursor: pointer;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 22px 18px;
+            }
+
+            .profile-hero {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 22px;
+                padding: 25px;
+            }
+
+            .profile-main {
+                gap: 15px;
+            }
+
+            .big-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 27px;
+            }
+
+            .profile-info h2 {
+                font-size: 22px;
+            }
+
+            .info-grid,
+            .edit-grid,
+            .emergency-contact {
+                grid-template-columns: 1fr;
+            }
+
+            .input-group.full {
+                grid-column: auto;
+            }
+
+            .top-user-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">S5</div>
+
+            <div class="logo-text">
+                <h2>ST5</h2>
+                <span>SMART HEALTHCARE</span>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <a class="nav-item" onclick="goDashboard()">
+            <span class="nav-icon">⌂</span>
+            Dashboard
+        </a>
+
+        <a class="nav-item" onclick="openMedicine()">
+            <span class="nav-icon">💊</span>
+            Medicines
+        </a>
+
+        <a class="nav-item" onclick="openReminder()">
+            <span class="nav-icon">⏰</span>
+            Reminders
+        </a>
+
+        <a class="nav-item" onclick="openHealth()">
+            <span class="nav-icon">♥</span>
+            Health Monitoring
+        </a>
+
+        <a class="nav-item" onclick="openScanner()">
+            <span class="nav-icon">▣</span>
+            Medicine Scanner
+        </a>
+
+        <a class="nav-item" onclick="openAssistant()">
+            <span class="nav-icon">◉</span>
+            Health Assistant
+        </a>
+
+        <div class="menu-title" style="margin-top:20px;">ACCOUNT</div>
+
+        <a class="nav-item active">
+            <span class="nav-icon">👤</span>
+            My Profile
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <a class="nav-item" onclick="logout()">
+                <span class="nav-icon">↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:12px;">
+
+                <div class="mobile-menu">☰</div>
+
+                <div class="page-title">
+                    <h1>My Profile</h1>
+                    <p>Manage your personal and medical information</p>
+                </div>
+
+            </div>
+
+            <div class="top-right">
+
+                <div class="notification">
+                    🔔
+                    <span class="notification-dot"></span>
+                </div>
+
+                <div class="top-user">
+
+                    <div class="top-avatar" id="topAvatar">
+                        U
+                    </div>
+
+                    <div class="top-user-text">
+                        <strong id="topName">User</strong>
+                        <span>Patient Account</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <!-- PROFILE HERO -->
+
+            <div class="profile-hero">
+
+                <div class="profile-main">
+
+                    <div class="big-avatar" id="bigAvatar">
+                        U
+                    </div>
+
+                    <div class="profile-info">
+
+                        <h2 id="heroName">User</h2>
+
+                        <p id="heroEmail">
+                            Your healthcare profile
+                        </p>
+
+                        <div class="profile-status">
+                            <span class="status-dot"></span>
+                            Profile Active
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="edit-profile-btn"
+                    onclick="enableEdit()">
+
+                    ✎ Edit Profile
+
+                </button>
+
+            </div>
+
+
+            <!-- ================= VIEW MODE ================= -->
+
+            <div id="viewArea" class="view-area">
+
+                <div class="dashboard-grid">
+
+                    <!-- PERSONAL INFORMATION -->
+
+                    <div>
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3>Personal Information</h3>
+                                <span>Basic details</span>
+                            </div>
+
+                            <div class="info-grid">
+
+                                <div class="info-item">
+                                    <div class="info-label">Full Name</div>
+                                    <div class="info-value" id="viewName">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">Age</div>
+                                    <div class="info-value" id="viewAge">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">Gender</div>
+                                    <div class="info-value" id="viewGender">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">Phone</div>
+                                    <div class="info-value" id="viewPhone">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">Email</div>
+                                    <div class="info-value" id="viewEmail">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item">
+                                    <div class="info-label">Blood Group</div>
+                                    <div class="info-value" id="viewBlood">
+                                        Not added
+                                    </div>
+                                </div>
+
+                                <div class="info-item" style="grid-column:1/-1;">
+                                    <div class="info-label">Address</div>
+                                    <div class="info-value" id="viewAddress">
+                                        Not added
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EMERGENCY CONTACT -->
+
+                        <div class="card emergency-card">
+
+                            <div class="emergency-header">
+
+                                <div class="emergency-icon">
+                                    !
+                                </div>
+
+                                <div>
+                                    <h3>Emergency Contact</h3>
+                                    <p>Used only during emergency situations</p>
+                                </div>
+
+                            </div>
+
+                            <div class="emergency-contact">
+
+                                <div class="contact-box">
+                                    <span>Contact Name</span>
+                                    <strong id="viewEmergencyName">
+                                        Not added
+                                    </strong>
+                                </div>
+
+                                <div class="contact-box">
+                                    <span>Phone Number</span>
+                                    <strong id="viewEmergency">
+                                        Not added
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RIGHT SIDE -->
+
+                    <div>
+
+                        <!-- HEALTH PROFILE -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h3>Medical Profile</h3>
+                                <span>Health details</span>
+                            </div>
+
+                            <div class="health-list">
+
+                                <div class="health-item">
+
+                                    <div class="health-left">
+                                        <div class="health-icon">🩸</div>
+
+                                        <div>
+                                            <strong>Blood Group</strong>
+                                            <span>Current record</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="health-value" id="healthBlood">
+                                        —
+                                    </div>
+
+                                </div>
+
+
+                                <div class="health-item">
+
+                                    <div class="health-left">
+                                        <div class="health-icon">⚖</div>
+
+                                        <div>
+                                            <strong>Weight</strong>
+                                            <span>Body measurement</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="health-value">
+                                        — kg
+                                    </div>
+
+                                </div>
+
+
+                                <div class="health-item">
+
+                                    <div class="health-left">
+                                        <div class="health-icon">💊</div>
+
+                                        <div>
+                                            <strong>Medicine Status</strong>
+                                            <span>Medication management</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="health-value">
+                                        Active
+                                    </div>
+
+                                </div>
+
+
+                                <div class="health-item">
+
+                                    <div class="health-left">
+                                        <div class="health-icon">✓</div>
+
+                                        <div>
+                                            <strong>Health Monitoring</strong>
+                                            <span>ST5 monitoring system</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="health-value">
+                                        Enabled
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACCOUNT -->
+
+                        <div class="card" style="margin-top:22px;">
+
+                            <div class="card-header">
+                                <h3>Account</h3>
+                                <span>Security</span>
+                            </div>
+
+                            <div class="account-row">
+
+                                <div>
+                                    <strong>Email Verification</strong>
+                                    <span>Your account email</span>
+                                </div>
+
+                                <span class="verified">
+                                    VERIFIED
+                                </span>
+
+                            </div>
+
+                            <div class="account-row">
+
+                                <div>
+                                    <strong>ST5 Account</strong>
+                                    <span>Smart healthcare access</span>
+                                </div>
+
+                                <span class="verified">
+                                    ACTIVE
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= EDIT MODE ================= -->
+
+            <div id="editArea" class="edit-area">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <div>
+                            <h3>Edit Profile</h3>
+                            <span>Update your information</span>
+                        </div>
+                    </div>
+
+
+                    <div class="edit-grid">
+
+                        <div class="input-group">
+
+                            <label>FULL NAME</label>
+
+                            <input
+                                type="text"
+                                id="editName"
+                                placeholder="Enter your full name">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>AGE</label>
+
+                            <input
+                                type="number"
+                                id="editAge"
+                                placeholder="Enter age">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>GENDER</label>
+
+                            <select id="editGender">
+
+                                <option value="">
+                                    Select Gender
+                                </option>
+
+                                <option value="Male">
+                                    Male
+                                </option>
+
+                                <option value="Female">
+                                    Female
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>PHONE NUMBER</label>
+
+                            <input
+                                type="tel"
+                                id="editPhone"
+                                placeholder="Enter phone number">
+
+                        </div>
+
+
+                        <div class="input-group full">
+
+                            <label>EMAIL ADDRESS</label>
+
+                            <input
+                                type="email"
+                                id="editEmail"
+                                placeholder="Enter email">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>BLOOD GROUP</label>
+
+                            <select id="editBlood">
+
+                                <option value="">
+                                    Select Blood Group
+                                </option>
+
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>EMERGENCY CONTACT NAME</label>
+
+                            <input
+                                type="text"
+                                id="editEmergencyName"
+                                placeholder="Contact person">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>EMERGENCY PHONE</label>
+
+                            <input
+                                type="tel"
+                                id="editEmergency"
+                                placeholder="Emergency phone">
+
+                        </div>
+
+
+                        <div class="input-group full">
+
+                            <label>ADDRESS</label>
+
+                            <input
+                                type="text"
+                                id="editAddress"
+                                placeholder="Enter your address">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-buttons">
+
+                        <button
+                            class="save-btn"
+                            onclick="saveProfile()">
+
+                            ✓ Save Changes
+
+                        </button>
+
+                        <button
+                            class="cancel-btn"
+                            onclick="cancelEdit()">
+
+                            Cancel
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ==========================================
+           LOAD PROFILE
+        ========================================== */
+
+        function loadProfile() {
+
+            let profile =
+                JSON.parse(localStorage.getItem("st5Profile"));
+
+            let loginName =
+                localStorage.getItem("st5User");
+
+            if (!profile) {
+
+                profile = {
+
+                    name: loginName || "User",
+                    age: "",
+                    gender: "",
+                    phone: "",
+                    email: "",
+                    bloodGroup: "",
+                    address: "",
+                    emergencyName: "",
+                    emergency: ""
+
+                };
+
+            }
+
+            updatePage(profile);
+        }
+
+
+        /* ==========================================
+           UPDATE PAGE
+        ========================================== */
+
+        function updatePage(profile) {
+
+            const name =
+                profile.name || "User";
+
+            document.getElementById("heroName").textContent =
+                name;
+
+            document.getElementById("topName").textContent =
+                name;
+
+            document.getElementById("topAvatar").textContent =
+                name.charAt(0).toUpperCase();
+
+            document.getElementById("bigAvatar").textContent =
+                name.charAt(0).toUpperCase();
+
+            document.getElementById("heroEmail").textContent =
+                profile.email || "Your healthcare profile";
+
+
+            document.getElementById("viewName").textContent =
+                profile.name || "Not added";
+
+            document.getElementById("viewAge").textContent =
+                profile.age ? profile.age + " years" : "Not added";
+
+            document.getElementById("viewGender").textContent =
+                profile.gender || "Not added";
+
+            document.getElementById("viewPhone").textContent =
+                profile.phone || "Not added";
+
+            document.getElementById("viewEmail").textContent =
+                profile.email || "Not added";
+
+            document.getElementById("viewBlood").textContent =
+                profile.bloodGroup || "Not added";
+
+            document.getElementById("viewAddress").textContent =
+                profile.address || "Not added";
+
+            document.getElementById("viewEmergencyName").textContent =
+                profile.emergencyName || "Not added";
+
+            document.getElementById("viewEmergency").textContent =
+                profile.emergency || "Not added";
+
+            document.getElementById("healthBlood").textContent =
+                profile.bloodGroup || "—";
+        }
+
+
+        /* ==========================================
+           ENABLE EDIT
+        ========================================== */
+
+        function enableEdit() {
+
+            const profile =
+                JSON.parse(localStorage.getItem("st5Profile")) || {};
+
+            document.getElementById("editName").value =
+                profile.name || localStorage.getItem("st5User") || "";
+
+            document.getElementById("editAge").value =
+                profile.age || "";
+
+            document.getElementById("editGender").value =
+                profile.gender || "";
+
+            document.getElementById("editPhone").value =
+                profile.phone || "";
+
+            document.getElementById("editEmail").value =
+                profile.email || "";
+
+            document.getElementById("editBlood").value =
+                profile.bloodGroup || "";
+
+            document.getElementById("editAddress").value =
+                profile.address || "";
+
+            document.getElementById("editEmergencyName").value =
+                profile.emergencyName || "";
+
+            document.getElementById("editEmergency").value =
+                profile.emergency || "";
+
+            document.getElementById("viewArea")
+                .classList.add("hidden");
+
+            document.getElementById("editArea")
+                .classList.add("active");
+        }
+
+
+        /* ==========================================
+           SAVE PROFILE
+        ========================================== */
+
+        function saveProfile() {
+
+            const name =
+                document.getElementById("editName").value.trim();
+
+            if (!name) {
+
+                alert("Please enter your full name.");
+
+                return;
+            }
+
+            const profile = {
+
+                name: name,
+
+                age:
+                    document.getElementById("editAge").value,
+
+                gender:
+                    document.getElementById("editGender").value,
+
+                phone:
+                    document.getElementById("editPhone").value,
+
+                email:
+                    document.getElementById("editEmail").value,
+
+                bloodGroup:
+                    document.getElementById("editBlood").value,
+
+                address:
+                    document.getElementById("editAddress").value,
+
+                emergencyName:
+                    document.getElementById("editEmergencyName").value,
+
+                emergency:
+                    document.getElementById("editEmergency").value
+            };
+
+
+            localStorage.setItem(
+                "st5Profile",
+                JSON.stringify(profile)
+            );
+
+
+            /* Update login username */
+
+            localStorage.setItem(
+                "st5User",
+                name
+            );
+
+
+            updatePage(profile);
+
+            document.getElementById("editArea")
+                .classList.remove("active");
+
+            document.getElementById("viewArea")
+                .classList.remove("hidden");
+
+
+            alert("Profile updated successfully.");
+        }
+
+
+        /* ==========================================
+           CANCEL EDIT
+        ========================================== */
+
+        function cancelEdit() {
+
+            document.getElementById("editArea")
+                .classList.remove("active");
+
+            document.getElementById("viewArea")
+                .classList.remove("hidden");
+        }
+
+
+        /* ==========================================
+           NAVIGATION
+        ========================================== */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+        }
+
+
+        function openMedicine() {
+
+            window.location.href =
+                "medicine.html";
+        }
+
+
+        function openReminder() {
+
+            window.location.href =
+                "reminder.html";
+        }
+
+
+        function openHealth() {
+
+            window.location.href =
+                "health.html";
+        }
+
+
+        function openScanner() {
+
+            window.location.href =
+                "scanner.html";
+        }
+
+
+        function openAssistant() {
+
+            window.location.href =
+                "assistant.html";
+        }
+
+
+        /* ==========================================
+           LOGOUT
+        ========================================== */
+
+        function logout() {
+
+            if (confirm("Do you want to logout?")) {
+
+                window.location.href =
+                    "index.html";
+            }
+        }
+
+
+        /* ==========================================
+           START
+        ========================================== */
+
+        loadProfile();
+
+    </script>
+
+</body>
+</html>

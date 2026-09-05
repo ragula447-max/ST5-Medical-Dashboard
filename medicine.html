@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 - Medicine Search</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f3f9fc;
+            color: #1d2b36;
+        }
+
+
+        /* HEADER */
+
+        header {
+            height: 70px;
+
+            background: linear-gradient(
+                135deg,
+                #0077b6,
+                #00a6d6
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+
+        .back-btn {
+            border: none;
+
+            background: white;
+            color: #0077b6;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .back-btn:hover {
+            background: #e9f8ff;
+        }
+
+
+        /* MAIN */
+
+        main {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 25px;
+        }
+
+
+        .page-title {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .page-title h1 {
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .page-title p {
+            color: #71808c;
+        }
+
+
+        /* SEARCH */
+
+        .search-box {
+            max-width: 700px;
+
+            margin: 0 auto 35px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .search-box input {
+            flex: 1;
+
+            padding: 15px 18px;
+
+            border: 1px solid #d3e0e7;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 16px;
+
+            background: white;
+        }
+
+
+        .search-box input:focus {
+            border-color: #008fc5;
+
+            box-shadow:
+                0 0 0 3px rgba(0,143,197,0.1);
+        }
+
+
+        .search-btn {
+            border: none;
+
+            padding: 0 25px;
+
+            border-radius: 10px;
+
+            background: #0077b6;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .search-btn:hover {
+            background: #005f91;
+        }
+
+
+        /* MEDICINE GRID */
+
+        .medicine-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 22px;
+        }
+
+
+        .medicine-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 5px 20px rgba(0,80,120,0.08);
+
+            transition: 0.3s;
+        }
+
+
+        .medicine-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 25px rgba(0,80,120,0.14);
+        }
+
+
+        .medicine-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 12px;
+
+            background: #e8f7ff;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 28px;
+
+            margin-bottom: 18px;
+        }
+
+.medicine-image {
+    width: 120px;
+    height: 120px;
+
+    margin: 0 auto 18px auto;
+
+    background: #f5fafc;
+
+    border: 1px solid #dceaf0;
+
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+
+
+.medicine-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    padding: 12px;
+
+    display: block;
+}
+
+
+        .medicine-card h2 {
+            font-size: 21px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .drug-class {
+            color: #0077b6;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+
+        .medicine-info {
+            margin-bottom: 13px;
+        }
+
+
+        .medicine-info strong {
+            display: block;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .medicine-info span {
+            color: #667783;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        .warning {
+            margin-top: 18px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            background: #fff7e6;
+
+            color: #805b00;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* NO RESULT */
+
+        #noResult {
+            display: none;
+
+            text-align: center;
+
+            color: #777;
+
+            padding: 30px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #82909a;
+
+            font-size: 13px;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width:600px) {
+
+            header {
+                padding: 0 18px;
+            }
+
+            main {
+                padding: 25px 15px;
+            }
+
+            .page-title h1 {
+                font-size: 27px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-btn {
+                padding: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ST5
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()">
+
+            ← Dashboard
+
+        </button>
+
+    </header>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main>
+
+
+        <div class="page-title">
+
+            <h1>
+                💊 Medicine Search
+            </h1>
+
+            <p>
+                Search for medicine information
+                in the ST5 medical system.
+            </p>
+
+        </div>
+
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search medicine name..."
+                onkeyup="searchMedicine()">
+
+            <button
+                class="search-btn"
+                onclick="searchMedicine()">
+
+                Search
+
+            </button>
+
+        </div>
+
+
+
+        <!-- MEDICINE CARDS -->
+
+        <div
+            class="medicine-grid"
+            id="medicineGrid">
+
+
+
+            <!-- PARACETAMOL -->
+
+            <div
+                class="medicine-card"
+                data-name="paracetamol">
+
+                <div class="medicine-image">
+    <img src="images/paracitamol.png.jpeg" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Paracetamol
+                </h2>
+
+                <div class="drug-class">
+                    Analgesic / Antipyretic
+                </div>
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Relief of mild to moderate pain
+                        and reduction of fever.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Headache, fever, muscle pain
+                        and common cold symptoms.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Follow the dosage recommended
+                        by a doctor or the product label.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ Do not exceed the recommended
+                    dose. Excessive use can damage
+                    the liver.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- IBUPROFEN -->
+
+            <div
+                class="medicine-card"
+                data-name="ibuprofen">
+
+                <div class="medicine-image">
+    <img src="images/ibuprofen.png.jpeg" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Ibuprofen
+                </h2>
+
+                <div class="drug-class">
+                    NSAID
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Helps reduce pain, inflammation
+                        and fever.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Muscle pain, dental pain,
+                        menstrual pain and arthritis.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Use only according to medical
+                        advice or the product label.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ May cause stomach irritation.
+                    Ask a healthcare professional if
+                    you have stomach, kidney or heart
+                    problems.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CETIRIZINE -->
+
+            <div
+                class="medicine-card"
+                data-name="cetirizine">
+
+                <div class="medicine-image">
+    <img src="images/amoxicillin.png.jpeg" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Cetirizine
+                </h2>
+
+                <div class="drug-class">
+                    Antihistamine
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Helps relieve allergy symptoms.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Sneezing, runny nose,
+                        itchy eyes and hives.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Follow the dosage recommended
+                        by a healthcare professional.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ May cause drowsiness in some
+                    people. Avoid driving if affected.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- OMEPRAZOLE -->
+
+            <div
+                class="medicine-card"
+                data-name="omeprazole">
+
+                <div class="medicine-image">
+    <img src="images/arsenic.png" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Omeprazole
+                </h2>
+
+                <div class="drug-class">
+                    Proton Pump Inhibitor
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Reduces the amount of acid
+                        produced in the stomach.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Acid reflux, heartburn and
+                        certain stomach ulcers.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Take according to the
+                        prescription or product label.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ Long-term use should be discussed
+                    with a healthcare professional.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- METFORMIN -->
+
+            <div
+                class="medicine-card"
+                data-name="metformin">
+
+                <div class="medicine-image">
+    <img src="images/metaformin .png.png" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Metformin
+                </h2>
+
+                <div class="drug-class">
+                    Antidiabetic Medicine
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Helps control blood glucose
+                        levels in type 2 diabetes.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Mainly used for type 2 diabetes
+                        under medical supervision.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Dosage must be determined by
+                        the prescribing doctor.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ Prescription medicine.
+                    Do not start or change the dose
+                    without medical advice.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AMOXICILLIN -->
+
+            <div
+                class="medicine-card"
+                data-name="amoxicillin">
+
+                <div class="medicine-image">
+    <img src="images/amoxicillin.png.jpeg" alt="Paracetamol">
+</div>
+
+                <h2>
+                    Amoxicillin
+                </h2>
+
+                <div class="drug-class">
+                    Antibiotic
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Primary Purpose
+                    </strong>
+
+                    <span>
+                        Treats certain bacterial
+                        infections.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Conditions
+                    </strong>
+
+                    <span>
+                        Used for certain respiratory,
+                        ear, skin and other bacterial
+                        infections.
+                    </span>
+
+                </div>
+
+
+                <div class="medicine-info">
+
+                    <strong>
+                        Dosage
+                    </strong>
+
+                    <span>
+                        Take exactly as prescribed
+                        by a healthcare professional.
+                    </span>
+
+                </div>
+
+
+                <div class="warning">
+
+                    ⚠️ Antibiotics do not treat viral
+                    infections. Complete the prescribed
+                    course unless your doctor advises
+                    otherwise.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div id="noResult">
+
+            No medicine found.
+
+        </div>
+
+
+    </main>
+
+
+    <footer>
+
+        ST5 Smart Medical System © 2026
+
+    </footer>
+
+
+
+    <script>
+
+
+        /*
+           MEDICINE SEARCH
+        */
+
+        function searchMedicine() {
+
+            const searchText =
+                document.getElementById(
+                    "searchInput"
+                ).value.toLowerCase().trim();
+
+
+            const cards =
+                document.querySelectorAll(
+                    ".medicine-card"
+                );
+
+
+            let found = false;
+
+
+            cards.forEach(function(card) {
+
+                const medicineName =
+                    card.dataset.name.toLowerCase();
+
+
+                if (
+                    medicineName.includes(searchText)
+                ) {
+
+                    card.style.display = "block";
+
+                    found = true;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            if (!found && searchText !== "") {
+
+                document.getElementById(
+                    "noResult"
+                ).style.display = "block";
+
+            } else {
+
+                document.getElementById(
+                    "noResult"
+                ).style.display = "none";
+
+            }
+
+        }
+
+
+
+        /*
+           BACK TO DASHBOARD
+        */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MEDISOS - Medicine Reminder</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8fc;
+            color: #172b4d;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #0056b3, #0088cc);
+            color: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 86, 179, 0.2);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #bdefff;
+        }
+
+        .back-btn {
+            border: none;
+            background: white;
+            color: #0056b3;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #e9f5ff;
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            color: #123b63;
+        }
+
+        .page-title p {
+            margin-top: 7px;
+            color: #65758b;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 50, 100, 0.08);
+            border: 1px solid #e1eaf3;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #123b63;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #40566f;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cdd9e5;
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #0077cc;
+            box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #0056b3, #0088cc);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* REMINDER LIST */
+        .reminder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .reminder-item {
+            border: 1px solid #dbe6ef;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: #fbfdff;
+        }
+
+        .medicine-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .medicine-icon {
+            width: 50px;
+            height: 50px;
+            background: #e9f5ff;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+        }
+
+        .medicine-info h3 {
+            font-size: 17px;
+            color: #163b5c;
+        }
+
+        .medicine-info p {
+            color: #718198;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .time-box {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .time {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0056b3;
+        }
+
+        .frequency {
+            font-size: 12px;
+            color: #74859a;
+            margin-top: 3px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #ffecec;
+            color: #d63031;
+            padding: 9px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .delete-btn:hover {
+            background: #ffdcdc;
+        }
+
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8190a3;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        /* STATUS */
+        .status {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #e9f8f0;
+            border: 1px solid #c8eedb;
+        }
+
+        .status h3 {
+            color: #16834f;
+            margin-bottom: 5px;
+        }
+
+        .status p {
+            color: #527363;
+            font-size: 14px;
+        }
+
+        /* TOGGLE */
+        .toggle-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 25px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccd5df;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input:checked + .slider {
+            background: #0088cc;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+        /* NEXT REMINDER */
+        .next-reminder {
+            margin-top: 20px;
+            background: #eef7ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #0088cc;
+        }
+
+        .next-reminder strong {
+            color: #0056b3;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reminder-item {
+                flex-wrap: wrap;
+            }
+
+            .time-box {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 15px 18px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        MEDI<span>SOS</span>
+    </div>
+
+    <button class="back-btn" onclick="goDashboard()">
+        ← Dashboard
+    </button>
+</header>
+
+
+<div class="container">
+
+    <div class="page-title">
+        <h1>💊 Smart Medicine Reminder</h1>
+        <p>Never miss your scheduled medicine. MEDISOS will remind you at the right time.</p>
+    </div>
+
+
+    <div class="grid">
+
+        <!-- ADD REMINDER -->
+        <div>
+
+            <div class="card">
+
+                <h2>➕ Add New Reminder</h2>
+
+                <div class="form-group">
+                    <label>Medicine Name</label>
+                    <input
+                        type="text"
+                        id="medicineName"
+                        placeholder="Example: Paracetamol"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Dosage</label>
+                    <input
+                        type="text"
+                        id="dosage"
+                        placeholder="Example: 500 mg"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Reminder Time</label>
+                    <input
+                        type="time"
+                        id="medicineTime"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Frequency</label>
+
+                    <select id="frequency">
+                        <option value="Every day">Every day</option>
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                        <option value="Night">Night</option>
+                    </select>
+                </div>
+
+                <div class="toggle-area">
+                    <label style="margin:0;">
+                        Enable Reminder
+                    </label>
+
+                    <label class="switch">
+                        <input type="checkbox" id="reminderEnabled" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <button class="add-btn" onclick="addReminder()">
+                    🔔 Add Reminder
+                </button>
+
+            </div>
+
+
+            <div class="status">
+
+                <h3>🔊 Voice Alert Enabled</h3>
+
+                <p>
+                    MEDISOS can use your device's voice system to announce
+                    medicine reminders.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- REMINDER LIST -->
+        <div class="card">
+
+            <h2>📋 Scheduled Medicines</h2>
+
+            <div id="reminderList" class="reminder-list">
+                <!-- Reminders appear here -->
+            </div>
+
+            <div id="nextReminder" class="next-reminder">
+                <strong>Next Reminder:</strong>
+                <span id="nextReminderText">No reminders scheduled</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let reminders = JSON.parse(
+        localStorage.getItem("medisosReminders")
+    ) || [];
+
+
+    /* DISPLAY REMINDERS */
+
+    function displayReminders() {
+
+        const list = document.getElementById("reminderList");
+
+        list.innerHTML = "";
+
+        if (reminders.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">⏰</div>
+                    <h3>No reminders yet</h3>
+                    <p>Add your first medicine reminder.</p>
+                </div>
+            `;
+
+            updateNextReminder();
+
+            return;
+        }
+
+
+        reminders.sort((a, b) =>
+            a.time.localeCompare(b.time)
+        );
+
+
+        reminders.forEach((reminder, index) => {
+
+            const item = document.createElement("div");
+
+            item.className = "reminder-item";
+
+
+            item.innerHTML = `
+
+                <div class="medicine-info">
+
+                    <div class="medicine-icon">
+                        💊
+                    </div>
+
+                    <div>
+
+                        <h3>${escapeHTML(reminder.name)}</h3>
+
+                        <p>
+                            ${escapeHTML(reminder.dosage)}
+                            • ${escapeHTML(reminder.frequency)}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="time-box">
+
+                    <div class="time">
+                        ${formatTime(reminder.time)}
+                    </div>
+
+                    <div class="frequency">
+                        ${reminder.enabled ? "🔔 Active" : "🔕 Disabled"}
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteReminder(${index})"
+                >
+                    Delete
+                </button>
+
+            `;
+
+            list.appendChild(item);
+
+        });
+
+
+        updateNextReminder();
+    }
+
+
+    /* ADD REMINDER */
+
+    function addReminder() {
+
+        const name =
+            document.getElementById("medicineName").value.trim();
+
+        const dosage =
+            document.getElementById("dosage").value.trim();
+
+        const time =
+            document.getElementById("medicineTime").value;
+
+        const frequency =
+            document.getElementById("frequency").value;
+
+        const enabled =
+            document.getElementById("reminderEnabled").checked;
+
+
+        if (!name || !dosage || !time) {
+
+            alert(
+                "Please enter medicine name, dosage and reminder time."
+            );
+
+            return;
+        }
+
+
+        const newReminder = {
+
+            id: Date.now(),
+
+            name: name,
+
+            dosage: dosage,
+
+            time: time,
+
+            frequency: frequency,
+
+            enabled: enabled,
+
+            lastAlert: ""
+
+        };
+
+
+        reminders.push(newReminder);
+
+
+        saveReminders();
+
+        displayReminders();
+
+
+        document.getElementById("medicineName").value = "";
+
+        document.getElementById("dosage").value = "";
+
+        document.getElementById("medicineTime").value = "";
+
+
+        alert(
+            "Medicine reminder added successfully!"
+        );
+
+    }
+
+
+    /* DELETE */
+
+    function deleteReminder(index) {
+
+        if (
+            confirm(
+                "Are you sure you want to delete this reminder?"
+            )
+        ) {
+
+            reminders.splice(index, 1);
+
+            saveReminders();
+
+            displayReminders();
+
+        }
+
+    }
+
+
+    /* SAVE */
+
+    function saveReminders() {
+
+        localStorage.setItem(
+            "medisosReminders",
+            JSON.stringify(reminders)
+        );
+
+    }
+
+
+    /* FORMAT TIME */
+
+    function formatTime(time) {
+
+        const [hour, minute] = time.split(":");
+
+        const date = new Date();
+
+        date.setHours(
+            parseInt(hour),
+            parseInt(minute)
+        );
+
+
+        return date.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+
+    /* NEXT REMINDER */
+
+    function updateNextReminder() {
+
+        const text =
+            document.getElementById("nextReminderText");
+
+
+        const active =
+            reminders.filter(
+                reminder => reminder.enabled
+            );
+
+
+        if (active.length === 0) {
+
+            text.textContent =
+                "No active reminders.";
+
+            return;
+
+        }
+
+
+        const now = new Date();
+
+        let next = null;
+
+        let smallestDifference = Infinity;
+
+
+        active.forEach(reminder => {
+
+            const [hour, minute] =
+                reminder.time.split(":");
+
+
+            const reminderDate =
+                new Date();
+
+
+            reminderDate.setHours(
+                parseInt(hour),
+                parseInt(minute),
+                0,
+                0
+            );
+
+
+            if (reminderDate <= now) {
+
+                reminderDate.setDate(
+                    reminderDate.getDate() + 1
+                );
+
+            }
+
+
+            const difference =
+                reminderDate - now;
+
+
+            if (difference < smallestDifference) {
+
+                smallestDifference = difference;
+
+                next = {
+                    reminder,
+                    reminderDate
+                };
+
+            }
+
+        });
+
+
+        if (next) {
+
+            const diffMinutes =
+                Math.ceil(
+                    smallestDifference / 60000
+                );
+
+
+            const hours =
+                Math.floor(diffMinutes / 60);
+
+
+            const minutes =
+                diffMinutes % 60;
+
+
+            text.innerHTML =
+                `<b>${escapeHTML(next.reminder.name)}</b>
+                 at <b>${formatTime(next.reminder.time)}</b>
+                 — ${hours}h ${minutes}m remaining`;
+
+        }
+
+    }
+
+
+    /* CHECK REMINDERS */
+
+    function checkReminders() {
+
+        const now = new Date();
+
+
+        const currentHour =
+            String(now.getHours()).padStart(2, "0");
+
+
+        const currentMinute =
+            String(now.getMinutes()).padStart(2, "0");
+
+
+        const currentTime =
+            `${currentHour}:${currentMinute}`;
+
+
+        const today =
+            now.toISOString().split("T")[0];
+
+
+        reminders.forEach(reminder => {
+
+            if (
+                reminder.enabled &&
+                reminder.time === currentTime &&
+                reminder.lastAlert !== today
+            ) {
+
+                triggerReminder(reminder);
+
+                reminder.lastAlert = today;
+
+                saveReminders();
+
+            }
+
+        });
+
+    }
+
+
+    /* ALERT */
+
+    function triggerReminder(reminder) {
+
+        const message =
+            `Medicine reminder. Please take ${reminder.name}, ${reminder.dosage}.`;
+
+
+        /* Browser notification */
+
+        if (
+            "Notification" in window &&
+            Notification.permission === "granted"
+        ) {
+
+            new Notification(
+                "💊 MEDISOS Medicine Reminder",
+                {
+                    body: message
+                }
+            );
+
+        }
+
+
+        /* Voice */
+
+        if ("speechSynthesis" in window) {
+
+            const speech =
+                new SpeechSynthesisUtterance(message);
+
+            speech.rate = 0.9;
+
+            speech.pitch = 1;
+
+            speech.volume = 1;
+
+            window.speechSynthesis.speak(
+                speech
+            );
+
+        }
+
+
+        /* Screen alert */
+
+        alert(
+            "💊 MEDISOS REMINDER\n\n" +
+            message
+        );
+
+    }
+
+
+    /* REQUEST NOTIFICATION PERMISSION */
+
+    function requestNotificationPermission() {
+
+        if (
+            "Notification" in window &&
+            Notification.permission === "default"
+        ) {
+
+            Notification.requestPermission();
+
+        }
+
+    }
+
+
+    /* SECURITY */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* DASHBOARD */
+
+    function goDashboard() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    /* INITIALIZE */
+
+    requestNotificationPermission();
+
+    displayReminders();
+
+
+    /*
+       Check every 30 seconds.
+       This allows the reminder to trigger
+       even if the page remains open.
+    */
+
+    setInterval(
+        checkReminders,
+        30000
+    );
+
+
+    setInterval(
+        updateNextReminder,
+        30000
+    );
+
+</script>
+
+</body>
+</html>
