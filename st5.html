@@ -1,0 +1,580 @@
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ST5 - Medical System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f7ff, #f5fbff);
+        }
+
+        .container {
+            width: 900px;
+            max-width: 95%;
+            min-height: 550px;
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 80, 120, 0.15);
+        }
+
+        /* LEFT SIDE */
+
+        .left-panel {
+            width: 45%;
+            background: linear-gradient(145deg, #0077b6, #00a6d6);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: white;
+            color: #0077b6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .left-panel h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .left-panel h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .left-panel p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* RIGHT SIDE */
+
+        .right-panel {
+            width: 55%;
+            padding: 45px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-box {
+            width: 100%;
+        }
+
+        .form-box h2 {
+            color: #123;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d5dfe5;
+            border-radius: 9px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #008fc5;
+            box-shadow: 0 0 0 3px rgba(0, 143, 197, 0.1);
+        }
+
+        .main-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #0077b6;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .main-button:hover {
+            background: #005f91;
+            transform: translateY(-1px);
+        }
+
+        .switch-text {
+            text-align: center;
+            margin-top: 22px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .switch-text button {
+            border: none;
+            background: none;
+            color: #0077b6;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .switch-text button:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        /* HIDE REGISTER FORM */
+
+        #registerForm {
+            display: none;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+            .container {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .left-panel {
+                width: 100%;
+                padding: 30px 20px;
+            }
+
+            .left-panel h1 {
+                font-size: 32px;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+
+            .right-panel {
+                width: 100%;
+                padding: 35px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+
+    <div class="left-panel">
+
+        <div class="logo">ST5</div>
+
+        <h1>ST5</h1>
+
+        <h2>Smart Medical System</h2>
+
+        <p>
+            Welcome to ST5, your smart medical assistance platform.
+            Securely access your healthcare information and
+            medical services through one simple system.
+        </p>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+
+    <div class="right-panel">
+
+        <!-- LOGIN FORM -->
+
+        <div class="form-box" id="loginForm">
+
+            <h2>Welcome Back</h2>
+
+            <p class="subtitle">
+                Login to continue to your ST5 medical system.
+            </p>
+
+            <form onsubmit="loginUser(event)">
+
+                <div class="input-group">
+                    <label for="loginUsername">Username</label>
+
+                    <input
+                        type="text"
+                        id="loginUsername"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+
+                <div class="input-group">
+                    <label for="loginEmail">Email ID</label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+
+                <button class="main-button" type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="message" id="loginMessage"></div>
+
+            <p class="switch-text">
+                New user?
+                <button onclick="showRegister()">
+                    Create an account
+                </button>
+            </p>
+
+        </div>
+
+
+        <!-- REGISTER FORM -->
+
+        <div class="form-box" id="registerForm">
+
+            <h2>Create Account</h2>
+
+            <p class="subtitle">
+                Register a new account for the ST5 medical system.
+            </p>
+
+            <form onsubmit="registerUser(event)">
+
+                <div class="input-group">
+                    <label for="registerUsername">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registerUsername"
+                        placeholder="Create your username"
+                        required
+                    >
+                </div>
+
+
+                <div class="input-group">
+                    <label for="registerEmail">
+                        Email ID
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+
+                <div class="input-group">
+                    <label for="registerPassword">
+                        Create Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+                </div>
+
+
+                <div class="input-group">
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                    >
+                </div>
+
+
+                <button class="main-button" type="submit">
+                    Register
+                </button>
+
+            </form>
+
+            <div class="message" id="registerMessage"></div>
+
+            <p class="switch-text">
+                Already have an account?
+                <button onclick="showLogin()">
+                    Login
+                </button>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+       Show Login Page
+    */
+
+    function showLogin() {
+
+        document.getElementById("loginForm").style.display = "block";
+
+        document.getElementById("registerForm").style.display = "none";
+
+        document.getElementById("loginMessage").textContent = "";
+
+        document.getElementById("registerMessage").textContent = "";
+    }
+
+
+    /*
+       Show Registration Page
+    */
+
+    function showRegister() {
+
+        document.getElementById("loginForm").style.display = "none";
+
+        document.getElementById("registerForm").style.display = "block";
+
+        document.getElementById("loginMessage").textContent = "";
+
+        document.getElementById("registerMessage").textContent = "";
+    }
+
+
+    /*
+       Registration
+    */
+
+    function registerUser(event) {
+
+        event.preventDefault();
+
+        const username =
+            document.getElementById("registerUsername").value;
+
+        const email =
+            document.getElementById("registerEmail").value;
+
+        const password =
+            document.getElementById("registerPassword").value;
+
+        const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+        const message =
+            document.getElementById("registerMessage");
+
+
+        // Check passwords
+
+        if (password !== confirmPassword) {
+
+            message.style.color = "red";
+
+            message.textContent =
+                "Passwords do not match.";
+
+            return;
+        }
+
+
+        // Save user locally for this prototype
+
+        const user = {
+            username: username,
+            email: email,
+            password: password
+        };
+
+        localStorage.setItem(
+            "st5User",
+            JSON.stringify(user)
+        );
+
+
+        message.style.color = "green";
+
+        message.textContent =
+            "Registration successful!";
+
+
+        // Clear form
+
+        document.querySelector("#registerForm form").reset();
+
+
+        // Go to login after short delay
+
+        setTimeout(function () {
+
+            showLogin();
+
+        }, 1200);
+    }
+
+
+    /*
+       Login
+    */
+
+    function loginUser(event) {
+        
+        event.preventDefault();
+
+        const username =
+            document.getElementById("loginUsername").value;
+
+        const email =
+            document.getElementById("loginEmail").value;
+
+        const password =
+            document.getElementById("loginPassword").value;
+
+        const message =
+            document.getElementById("loginMessage");
+
+
+        const savedUser =
+            localStorage.getItem("st5User");
+
+
+        if (!savedUser) {
+
+            message.style.color = "red";
+
+            message.textContent =
+                "No account found. Please register first.";
+
+            return;
+        }
+
+
+        const user =
+            JSON.parse(savedUser);
+
+
+        if (
+            username === user.username &&
+            email === user.email &&
+            password === user.password
+        ) {
+
+            message.style.color = "green";
+
+            message.textContent =
+                "Login successful! Welcome to ST5.";
+                
+            setTimeout(function () {
+    window.location.href = "dashboard.html";
+}, 1000);
+
+            /*
+               Later we will redirect here
+               to your main medical dashboard.
+            */
+
+        } else {
+
+            message.style.color = "red";
+
+            message.textContent =
+                "Invalid username, email, or password.";
+        }
+    }
+
+</script>
+
+</body>
+</html>

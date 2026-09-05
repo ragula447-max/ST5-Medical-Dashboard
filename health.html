@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 - Health Monitoring</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f3f9fc;
+            color: #1d2b36;
+        }
+
+
+        /* HEADER */
+
+        header {
+
+            height: 70px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0077b6,
+                    #00a6d6
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .back-btn {
+
+            border: none;
+
+            background: white;
+
+            color: #0077b6;
+
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #eaf8fc;
+
+        }
+
+
+        /* MAIN */
+
+        main {
+
+            padding: 35px;
+
+            max-width: 1300px;
+
+            margin: auto;
+
+        }
+
+
+        .welcome {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .welcome h1 {
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .welcome p {
+
+            color: #71808c;
+
+        }
+
+
+        /* HEALTH CARDS */
+
+        .health-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 20px;
+
+        }
+
+
+        .health-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+            border: 1px solid #e4eef3;
+
+        }
+
+
+        .health-icon {
+
+            font-size: 35px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .health-card h2 {
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .health-value {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #0077b6;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .unit {
+
+            color: #71808c;
+
+            font-size: 13px;
+
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .normal {
+
+            background: #e6f7ef;
+
+            color: #16834f;
+
+        }
+
+
+        .warning {
+
+            background: #fff4df;
+
+            color: #b76a00;
+
+        }
+
+
+        .danger {
+
+            background: #ffe7e7;
+
+            color: #c62828;
+
+        }
+
+
+        /* INPUT SECTION */
+
+        .section {
+
+            background: white;
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+        }
+
+
+        .section h2 {
+
+            margin-bottom: 20px;
+
+            color: #1d2b36;
+
+        }
+
+
+        .input-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 18px;
+
+        }
+
+
+        .input-box label {
+
+            display: block;
+
+            font-weight: 600;
+
+            font-size: 14px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .input-box input {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #cddce4;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .input-box input:focus {
+
+            border-color: #0077b6;
+
+        }
+
+
+        .update-btn {
+
+            margin-top: 20px;
+
+            padding: 12px 25px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0077b6,
+                    #00a6d6
+                );
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .update-btn:hover {
+
+            opacity: 0.9;
+
+        }
+
+
+        /* RECENT READINGS */
+
+        .table-container {
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        th,
+        td {
+
+            padding: 13px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid #e5edf2;
+
+        }
+
+
+        th {
+
+            background: #eef8fc;
+
+            color: #356070;
+
+            font-size: 14px;
+
+        }
+
+
+        td {
+
+            font-size: 14px;
+
+        }
+
+
+        /* HEALTH SUMMARY */
+
+        .summary {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #eef8fc;
+
+            border-left: 5px solid #0077b6;
+
+            border-radius: 10px;
+
+        }
+
+
+        .summary h3 {
+
+            color: #0077b6;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .summary p {
+
+            color: #5d7180;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width: 600px) {
+
+            header {
+
+                padding: 0 18px;
+
+            }
+
+
+            main {
+
+                padding: 20px;
+
+            }
+
+
+            .welcome h1 {
+
+                font-size: 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ST5
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()">
+
+            ← Dashboard
+
+        </button>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <div class="welcome">
+
+            <h1>
+                ❤️ Health Monitoring
+            </h1>
+
+            <p>
+                Monitor your important health measurements
+                with the ST5 smart medical system.
+            </p>
+
+        </div>
+
+
+
+        <!-- HEALTH CARDS -->
+
+        <div class="health-grid">
+
+
+            <!-- HEART RATE -->
+
+            <div class="health-card">
+
+                <div class="health-icon">
+                    ❤️
+                </div>
+
+                <h2>
+                    Heart Rate
+                </h2>
+
+                <div
+                    class="health-value"
+                    id="heartRateValue">
+
+                    72
+
+                </div>
+
+                <div class="unit">
+                    BPM
+                </div>
+
+                <span
+                    class="status normal"
+                    id="heartStatus">
+
+                    Normal
+
+                </span>
+
+            </div>
+
+
+
+            <!-- BLOOD PRESSURE -->
+
+            <div class="health-card">
+
+                <div class="health-icon">
+                    🩸
+                </div>
+
+                <h2>
+                    Blood Pressure
+                </h2>
+
+                <div
+                    class="health-value"
+                    id="bpValue">
+
+                    120/80
+
+                </div>
+
+                <div class="unit">
+                    mmHg
+                </div>
+
+                <span
+                    class="status normal"
+                    id="bpStatus">
+
+                    Normal
+
+                </span>
+
+            </div>
+
+
+
+            <!-- SPO2 -->
+
+            <div class="health-card">
+
+                <div class="health-icon">
+                    🫁
+                </div>
+
+                <h2>
+                    Blood Oxygen
+                </h2>
+
+                <div
+                    class="health-value"
+                    id="spo2Value">
+
+                    98
+
+                </div>
+
+                <div class="unit">
+                    SpO₂ %
+                </div>
+
+                <span
+                    class="status normal"
+                    id="spo2Status">
+
+                    Normal
+
+                </span>
+
+            </div>
+
+
+
+            <!-- TEMPERATURE -->
+
+            <div class="health-card">
+
+                <div class="health-icon">
+                    🌡️
+                </div>
+
+                <h2>
+                    Temperature
+                </h2>
+
+                <div
+                    class="health-value"
+                    id="tempValue">
+
+                    36.7
+
+                </div>
+
+                <div class="unit">
+                    °C
+                </div>
+
+                <span
+                    class="status normal"
+                    id="tempStatus">
+
+                    Normal
+
+                </span>
+
+            </div>
+
+
+
+            <!-- WEIGHT -->
+
+            <div class="health-card">
+
+                <div class="health-icon">
+                    ⚖️
+                </div>
+
+                <h2>
+                    Weight
+                </h2>
+
+                <div
+                    class="health-value"
+                    id="weightValue">
+
+                    65
+
+                </div>
+
+                <div class="unit">
+                    kg
+                </div>
+
+                <span
+                    class="status normal">
+
+                    Recorded
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- UPDATE HEALTH -->
+
+        <div class="section">
+
+            <h2>
+                📝 Update Health Measurements
+            </h2>
+
+
+            <div class="input-grid">
+
+
+                <div class="input-box">
+
+                    <label>
+                        Heart Rate (BPM)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="heartRateInput"
+                        placeholder="Example: 72">
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        Systolic BP
+                    </label>
+
+                    <input
+                        type="number"
+                        id="systolicInput"
+                        placeholder="Example: 120">
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        Diastolic BP
+                    </label>
+
+                    <input
+                        type="number"
+                        id="diastolicInput"
+                        placeholder="Example: 80">
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        SpO₂ (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="spo2Input"
+                        placeholder="Example: 98">
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        Temperature (°C)
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.1"
+                        id="tempInput"
+                        placeholder="Example: 36.7">
+
+                </div>
+
+
+
+                <div class="input-box">
+
+                    <label>
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.1"
+                        id="weightInput"
+                        placeholder="Example: 65">
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="update-btn"
+                onclick="updateHealth()">
+
+                💾 Save Health Data
+
+            </button>
+
+        </div>
+
+
+
+        <!-- RECENT READINGS -->
+
+        <div class="section">
+
+            <h2>
+                📊 Recent Health Readings
+            </h2>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                            <th>
+                                Heart Rate
+                            </th>
+
+                            <th>
+                                Blood Pressure
+                            </th>
+
+                            <th>
+                                SpO₂
+                            </th>
+
+                            <th>
+                                Temperature
+                            </th>
+
+                            <th>
+                                Weight
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="historyTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <h3>
+                ℹ️ Health Information
+            </h3>
+
+            <p>
+                These measurements are for monitoring purposes.
+                They do not replace professional medical advice.
+                If you experience severe symptoms or unusually
+                abnormal readings, contact a qualified healthcare
+                professional.
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+
+        /* LOAD SAVED DATA */
+
+        let healthData =
+            JSON.parse(
+                localStorage.getItem(
+                    "st5HealthData"
+                )
+            ) || {
+
+                heartRate: 72,
+
+                systolic: 120,
+
+                diastolic: 80,
+
+                spo2: 98,
+
+                temperature: 36.7,
+
+                weight: 65
+
+            };
+
+
+
+        let history =
+            JSON.parse(
+                localStorage.getItem(
+                    "st5HealthHistory"
+                )
+            ) || [];
+
+
+
+        /* DISPLAY DATA */
+
+        function displayHealth() {
+
+
+            document.getElementById(
+                "heartRateValue"
+            ).textContent =
+                healthData.heartRate;
+
+
+
+            document.getElementById(
+                "bpValue"
+            ).textContent =
+                healthData.systolic +
+                "/" +
+                healthData.diastolic;
+
+
+
+            document.getElementById(
+                "spo2Value"
+            ).textContent =
+                healthData.spo2;
+
+
+
+            document.getElementById(
+                "tempValue"
+            ).textContent =
+                healthData.temperature;
+
+
+
+            document.getElementById(
+                "weightValue"
+            ).textContent =
+                healthData.weight;
+
+
+
+            updateStatuses();
+
+
+            displayHistory();
+
+        }
+
+
+
+        /* STATUS CHECK */
+
+        function updateStatuses() {
+
+
+            const heartStatus =
+                document.getElementById(
+                    "heartStatus"
+                );
+
+
+            if (
+                healthData.heartRate >= 60 &&
+                healthData.heartRate <= 100
+            ) {
+
+                setStatus(
+                    heartStatus,
+                    "Normal",
+                    "normal"
+                );
+
+            }
+
+            else if (
+                healthData.heartRate < 50 ||
+                healthData.heartRate > 120
+            ) {
+
+                setStatus(
+                    heartStatus,
+                    "Check",
+                    "danger"
+                );
+
+            }
+
+            else {
+
+                setStatus(
+                    heartStatus,
+                    "Attention",
+                    "warning"
+                );
+
+            }
+
+
+
+            const bpStatus =
+                document.getElementById(
+                    "bpStatus"
+                );
+
+
+            const sys =
+                healthData.systolic;
+
+            const dia =
+                healthData.diastolic;
+
+
+            if (
+                sys >= 90 &&
+                sys < 120 &&
+                dia >= 60 &&
+                dia < 80
+            ) {
+
+                setStatus(
+                    bpStatus,
+                    "Normal",
+                    "normal"
+                );
+
+            }
+
+            else if (
+                sys >= 140 ||
+                dia >= 90
+            ) {
+
+                setStatus(
+                    bpStatus,
+                    "High",
+                    "danger"
+                );
+
+            }
+
+            else {
+
+                setStatus(
+                    bpStatus,
+                    "Attention",
+                    "warning"
+                );
+
+            }
+
+
+
+            const spo2Status =
+                document.getElementById(
+                    "spo2Status"
+                );
+
+
+            if (healthData.spo2 >= 95) {
+
+                setStatus(
+                    spo2Status,
+                    "Normal",
+                    "normal"
+                );
+
+            }
+
+            else if (healthData.spo2 >= 90) {
+
+                setStatus(
+                    spo2Status,
+                    "Attention",
+                    "warning"
+                );
+
+            }
+
+            else {
+
+                setStatus(
+                    spo2Status,
+                    "Low",
+                    "danger"
+                );
+
+            }
+
+
+
+            const tempStatus =
+                document.getElementById(
+                    "tempStatus"
+                );
+
+
+            if (
+                healthData.temperature >= 36.1 &&
+                healthData.temperature <= 37.2
+            ) {
+
+                setStatus(
+                    tempStatus,
+                    "Normal",
+                    "normal"
+                );
+
+            }
+
+            else if (
+                healthData.temperature > 38
+            ) {
+
+                setStatus(
+                    tempStatus,
+                    "High",
+                    "danger"
+                );
+
+            }
+
+            else {
+
+                setStatus(
+                    tempStatus,
+                    "Attention",
+                    "warning"
+                );
+
+            }
+
+        }
+
+
+
+        /* SET STATUS */
+
+        function setStatus(
+            element,
+            text,
+            className
+        ) {
+
+            element.textContent = text;
+
+            element.className =
+                "status " + className;
+
+        }
+
+
+
+        /* SAVE HEALTH DATA */
+
+        function updateHealth() {
+
+
+            const heartRate =
+                document.getElementById(
+                    "heartRateInput"
+                ).value;
+
+
+            const systolic =
+                document.getElementById(
+                    "systolicInput"
+                ).value;
+
+
+            const diastolic =
+                document.getElementById(
+                    "diastolicInput"
+                ).value;
+
+
+            const spo2 =
+                document.getElementById(
+                    "spo2Input"
+                ).value;
+
+
+            const temperature =
+                document.getElementById(
+                    "tempInput"
+                ).value;
+
+
+            const weight =
+                document.getElementById(
+                    "weightInput"
+                ).value;
+
+
+
+            if (
+                !heartRate ||
+                !systolic ||
+                !diastolic ||
+                !spo2 ||
+                !temperature ||
+                !weight
+            ) {
+
+                alert(
+                    "Please enter all health measurements."
+                );
+
+                return;
+
+            }
+
+
+
+            healthData = {
+
+                heartRate:
+                    Number(heartRate),
+
+                systolic:
+                    Number(systolic),
+
+                diastolic:
+                    Number(diastolic),
+
+                spo2:
+                    Number(spo2),
+
+                temperature:
+                    Number(temperature),
+
+                weight:
+                    Number(weight)
+
+            };
+
+
+
+            const now =
+                new Date();
+
+
+
+            history.unshift({
+
+                date:
+                    now.toLocaleString(),
+
+                heartRate:
+                    healthData.heartRate,
+
+                bp:
+                    healthData.systolic +
+                    "/" +
+                    healthData.diastolic,
+
+                spo2:
+                    healthData.spo2,
+
+                temperature:
+                    healthData.temperature,
+
+                weight:
+                    healthData.weight
+
+            });
+
+
+
+            /* Keep last 10 readings */
+
+            history =
+                history.slice(0, 10);
+
+
+
+            localStorage.setItem(
+                "st5HealthData",
+                JSON.stringify(
+                    healthData
+                )
+            );
+
+
+            localStorage.setItem(
+                "st5HealthHistory",
+                JSON.stringify(
+                    history
+                )
+            );
+
+
+
+            displayHealth();
+
+
+
+            /* Clear inputs */
+
+            document.getElementById(
+                "heartRateInput"
+            ).value = "";
+
+            document.getElementById(
+                "systolicInput"
+            ).value = "";
+
+            document.getElementById(
+                "diastolicInput"
+            ).value = "";
+
+            document.getElementById(
+                "spo2Input"
+            ).value = "";
+
+            document.getElementById(
+                "tempInput"
+            ).value = "";
+
+            document.getElementById(
+                "weightInput"
+            ).value = "";
+
+
+
+            alert(
+                "Health data saved successfully!"
+            );
+
+        }
+
+
+
+        /* HISTORY TABLE */
+
+        function displayHistory() {
+
+
+            const table =
+                document.getElementById(
+                    "historyTable"
+                );
+
+
+            table.innerHTML = "";
+
+
+
+            if (history.length === 0) {
+
+                table.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            style="text-align:center;">
+
+                            No health readings recorded yet.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            history.forEach(
+                reading => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${reading.date}
+                        </td>
+
+                        <td>
+                            ${reading.heartRate} BPM
+                        </td>
+
+                        <td>
+                            ${reading.bp} mmHg
+                        </td>
+
+                        <td>
+                            ${reading.spo2}%
+                        </td>
+
+                        <td>
+                            ${reading.temperature} °C
+                        </td>
+
+                        <td>
+                            ${reading.weight} kg
+                        </td>
+
+                    `;
+
+
+                    table.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+
+        /* BACK TO DASHBOARD */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+
+        /* START */
+
+        displayHealth();
+
+
+    </script>
+
+
+</body>
+
+</html>

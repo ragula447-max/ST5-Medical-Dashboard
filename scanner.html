@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 - Medicine Scanner</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f3f9fc;
+            color: #1d2b36;
+        }
+
+
+        /* HEADER */
+
+        header {
+
+            height: 70px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0077b6,
+                    #00a6d6
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+        }
+
+
+        .logo {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .back-btn {
+
+            border: none;
+
+            background: white;
+
+            color: #0077b6;
+
+            padding: 9px 18px;
+
+            border-radius: 7px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #eaf8fc;
+
+        }
+
+
+        /* MAIN */
+
+        main {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 20px;
+
+        }
+
+
+        .page-title {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .page-title h1 {
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-title p {
+
+            color: #71808c;
+
+        }
+
+
+        /* SCANNER GRID */
+
+        .scanner-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+
+        }
+
+
+        /* CARD */
+
+        .card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+            border: 1px solid #e2edf2;
+
+        }
+
+
+        .card h2 {
+
+            font-size: 20px;
+
+            margin-bottom: 18px;
+
+            color: #173b50;
+
+        }
+
+
+        /* CAMERA */
+
+        .camera-box {
+
+            width: 100%;
+
+            height: 330px;
+
+            background: #10232d;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+        }
+
+
+        video {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: none;
+
+        }
+
+
+        canvas {
+
+            display: none;
+
+        }
+
+
+        .camera-placeholder {
+
+            text-align: center;
+
+            color: white;
+
+        }
+
+
+        .camera-placeholder .camera-icon {
+
+            font-size: 55px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .camera-placeholder p {
+
+            color: #b8c8d0;
+
+            font-size: 14px;
+
+        }
+
+
+        /* SCAN FRAME */
+
+        .scan-frame {
+
+            position: absolute;
+
+            width: 210px;
+
+            height: 150px;
+
+            border: 2px solid #00d9ff;
+
+            border-radius: 12px;
+
+            display: none;
+
+            pointer-events: none;
+
+        }
+
+
+        .scan-line {
+
+            position: absolute;
+
+            width: 100%;
+
+            height: 2px;
+
+            background: #00d9ff;
+
+            top: 0;
+
+            animation: scan 2s infinite;
+
+        }
+
+
+        @keyframes scan {
+
+            0% {
+                top: 0;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
+
+        }
+
+
+        /* BUTTONS */
+
+        .button-row {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 18px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .btn {
+
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+        }
+
+
+        .primary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0077b6,
+                    #00a6d6
+                );
+
+            color: white;
+
+        }
+
+
+        .secondary {
+
+            background: #eaf6fb;
+
+            color: #0077b6;
+
+        }
+
+
+        .danger {
+
+            background: #ffe8e8;
+
+            color: #c62828;
+
+        }
+
+
+        .btn:hover {
+
+            opacity: 0.88;
+
+        }
+
+
+        /* UPLOAD */
+
+        .upload-box {
+
+            margin-top: 18px;
+
+            padding: 18px;
+
+            border: 2px dashed #b9d8e4;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            background: #f8fcfe;
+
+        }
+
+
+        .upload-box p {
+
+            color: #71808c;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        #imageInput {
+
+            display: none;
+
+        }
+
+
+        /* PREVIEW */
+
+        .preview-container {
+
+            margin-top: 20px;
+
+            display: none;
+
+        }
+
+
+        .preview-container h3 {
+
+            margin-bottom: 10px;
+
+        }
+
+
+        #imagePreview {
+
+            width: 100%;
+
+            max-height: 280px;
+
+            object-fit: contain;
+
+            background: #f2f6f8;
+
+            border-radius: 10px;
+
+            padding: 8px;
+
+        }
+
+
+        /* RESULT */
+
+        .result-card {
+
+            display: none;
+
+            margin-top: 25px;
+
+        }
+
+
+        .result-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .medicine-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            background: #e9f7fc;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 32px;
+
+        }
+
+
+        .medicine-name {
+
+            font-size: 23px;
+
+            color: #0077b6;
+
+            font-weight: bold;
+
+        }
+
+
+        .confidence {
+
+            font-size: 13px;
+
+            color: #16834f;
+
+            margin-top: 4px;
+
+        }
+
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+
+        }
+
+
+        .info-box {
+
+            background: #f6fafc;
+
+            border-radius: 9px;
+
+            padding: 14px;
+
+        }
+
+
+        .info-box strong {
+
+            display: block;
+
+            color: #526b78;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .info-box span {
+
+            color: #1d2b36;
+
+            font-size: 14px;
+
+        }
+
+
+        /* WARNING */
+
+        .warning {
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            background: #fff8e6;
+
+            border-left: 4px solid #e0a000;
+
+            border-radius: 8px;
+
+            color: #725b18;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* INSTRUCTIONS */
+
+        .instructions {
+
+            margin-top: 25px;
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0, 80, 120, 0.08);
+
+        }
+
+
+        .instructions h2 {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .instructions ol {
+
+            padding-left: 22px;
+
+        }
+
+
+        .instructions li {
+
+            margin-bottom: 9px;
+
+            color: #5e707b;
+
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width: 800px) {
+
+            .scanner-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media(max-width: 500px) {
+
+            header {
+
+                padding: 0 18px;
+
+            }
+
+
+            main {
+
+                padding: 20px 12px;
+
+            }
+
+
+            .page-title h1 {
+
+                font-size: 25px;
+
+            }
+
+
+            .camera-box {
+
+                height: 280px;
+
+            }
+
+
+            .info-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ST5
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="goDashboard()">
+
+            ← Dashboard
+
+        </button>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main>
+
+
+        <div class="page-title">
+
+            <h1>
+                📷 Medicine Scanner
+            </h1>
+
+            <p>
+                Scan or upload a medicine image to
+                identify the medicine.
+            </p>
+
+        </div>
+
+
+
+        <div class="scanner-grid">
+
+
+            <!-- CAMERA CARD -->
+
+            <div class="card">
+
+                <h2>
+                    📸 Camera Scanner
+                </h2>
+
+
+                <div class="camera-box">
+
+
+                    <video
+                        id="camera"
+                        autoplay
+                        playsinline>
+                    </video>
+
+
+                    <div
+                        class="camera-placeholder"
+                        id="cameraPlaceholder">
+
+                        <div class="camera-icon">
+                            📷
+                        </div>
+
+                        <p>
+                            Click "Start Camera"
+                            to begin scanning.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="scan-frame"
+                        id="scanFrame">
+
+                        <div class="scan-line">
+                        </div>
+
+                    </div>
+
+
+                    <canvas
+                        id="canvas">
+                    </canvas>
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="btn primary"
+                        id="cameraButton"
+                        onclick="startCamera()">
+
+                        📷 Start Camera
+
+                    </button>
+
+
+                    <button
+                        class="btn secondary"
+                        onclick="captureImage()">
+
+                        📸 Capture
+
+                    </button>
+
+
+                    <button
+                        class="btn danger"
+                        onclick="stopCamera()">
+
+                        ⛔ Stop
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- UPLOAD CARD -->
+
+            <div class="card">
+
+                <h2>
+                    🖼️ Upload Medicine Image
+                </h2>
+
+
+                <div class="upload-box">
+
+                    <p>
+                        Select a clear image of the
+                        medicine or tablet.
+                    </p>
+
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                        onchange="previewImage(event)">
+
+
+                    <button
+                        class="btn primary"
+                        onclick="document.getElementById('imageInput').click()">
+
+                        🖼️ Choose Image
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="preview-container"
+                    id="previewContainer">
+
+                    <h3>
+                        Image Preview
+                    </h3>
+
+
+                    <img
+                        id="imagePreview"
+                        alt="Medicine preview">
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="btn primary"
+                        onclick="identifyMedicine()">
+
+                        🔍 Identify Medicine
+
+                    </button>
+
+
+                    <button
+                        class="btn secondary"
+                        onclick="clearScanner()">
+
+                        ↻ Clear
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RESULT -->
+
+        <div
+            class="card result-card"
+            id="resultCard">
+
+
+            <h2>
+                🔎 Scan Result
+            </h2>
+
+
+            <div class="result-header">
+
+                <div class="medicine-icon">
+                    💊
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="medicine-name"
+                        id="medicineName">
+
+                        Paracetamol
+
+                    </div>
+
+
+                    <div
+                        class="confidence"
+                        id="confidence">
+
+                        Demo identification result
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-box">
+
+                    <strong>
+                        DRUG CLASS
+                    </strong>
+
+                    <span id="drugClass">
+                        Analgesic / Antipyretic
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        PRIMARY PURPOSE
+                    </strong>
+
+                    <span id="purpose">
+                        Pain and fever relief
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        COMMON USE
+                    </strong>
+
+                    <span id="uses">
+                        Headache, fever and mild pain
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        FORM
+                    </strong>
+
+                    <span id="form">
+                        Tablet
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="warning">
+
+                ⚠️ <strong>Important:</strong>
+                Image-based identification is only a
+                demonstration in this version. Do not
+                take an unknown medicine based only on
+                this scanner result. Always verify the
+                medicine packaging or consult a qualified
+                healthcare professional.
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INSTRUCTIONS -->
+
+        <div class="instructions">
+
+            <h2>
+                📋 How to Scan
+            </h2>
+
+
+            <ol>
+
+                <li>
+                    Place the medicine on a clear,
+                    well-lit surface.
+                </li>
+
+                <li>
+                    Make sure the tablet or medicine
+                    package is clearly visible.
+                </li>
+
+                <li>
+                    Click <strong>Start Camera</strong>
+                    or upload an image.
+                </li>
+
+                <li>
+                    Capture or select the image.
+                </li>
+
+                <li>
+                    Click <strong>Identify Medicine</strong>.
+                </li>
+
+                <li>
+                    Always verify the result before
+                    taking any medicine.
+                </li>
+
+            </ol>
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+
+        /* CAMERA */
+
+        let stream = null;
+
+
+        async function startCamera() {
+
+            try {
+
+                stream =
+                    await navigator.mediaDevices
+                        .getUserMedia({
+
+                            video: {
+                                facingMode: "environment"
+                            },
+
+                            audio: false
+
+                        });
+
+
+                const video =
+                    document.getElementById(
+                        "camera"
+                    );
+
+
+                video.srcObject = stream;
+
+                video.style.display = "block";
+
+
+                document.getElementById(
+                    "cameraPlaceholder"
+                ).style.display = "none";
+
+
+                document.getElementById(
+                    "scanFrame"
+                ).style.display = "block";
+
+
+                document.getElementById(
+                    "cameraButton"
+                ).textContent =
+                    "📷 Camera Active";
+
+            }
+
+            catch (error) {
+
+                alert(
+                    "Camera could not be opened.\n\n" +
+                    "Please allow camera permission " +
+                    "in your browser."
+                );
+
+                console.error(error);
+
+            }
+
+        }
+
+
+
+        /* STOP CAMERA */
+
+        function stopCamera() {
+
+            if (stream) {
+
+                stream.getTracks().forEach(
+                    track => track.stop()
+                );
+
+                stream = null;
+
+            }
+
+
+            const video =
+                document.getElementById(
+                    "camera"
+                );
+
+
+            video.style.display = "none";
+
+            video.srcObject = null;
+
+
+            document.getElementById(
+                "cameraPlaceholder"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "scanFrame"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "cameraButton"
+            ).textContent =
+                "📷 Start Camera";
+
+        }
+
+
+
+        /* CAPTURE IMAGE */
+
+        function captureImage() {
+
+            const video =
+                document.getElementById(
+                    "camera"
+                );
+
+
+            if (!stream) {
+
+                alert(
+                    "Please start the camera first."
+                );
+
+                return;
+
+            }
+
+
+            const canvas =
+                document.getElementById(
+                    "canvas"
+                );
+
+
+            canvas.width =
+                video.videoWidth;
+
+            canvas.height =
+                video.videoHeight;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.drawImage(
+                video,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            const imageData =
+                canvas.toDataURL(
+                    "image/jpeg"
+                );
+
+
+            document.getElementById(
+                "imagePreview"
+            ).src = imageData;
+
+
+            document.getElementById(
+                "previewContainer"
+            ).style.display = "block";
+
+
+            alert(
+                "Image captured successfully!"
+            );
+
+        }
+
+
+
+        /* IMAGE UPLOAD */
+
+        function previewImage(event) {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload = function(e) {
+
+                document.getElementById(
+                    "imagePreview"
+                ).src = e.target.result;
+
+
+                document.getElementById(
+                    "previewContainer"
+                ).style.display =
+                    "block";
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+
+        /* IDENTIFY MEDICINE */
+
+        function identifyMedicine() {
+
+            const image =
+                document.getElementById(
+                    "imagePreview"
+                );
+
+
+            if (
+                !image.src ||
+                image.src ===
+                window.location.href
+            ) {
+
+                alert(
+                    "Please capture or upload a medicine image first."
+                );
+
+                return;
+
+            }
+
+
+            /*
+                DEMO RESULT
+
+                This is not real AI image
+                recognition yet.
+            */
+
+
+            document.getElementById(
+                "medicineName"
+            ).textContent =
+                "Paracetamol";
+
+
+            document.getElementById(
+                "confidence"
+            ).textContent =
+                "Demo identification result";
+
+
+            document.getElementById(
+                "drugClass"
+            ).textContent =
+                "Analgesic / Antipyretic";
+
+
+            document.getElementById(
+                "purpose"
+            ).textContent =
+                "Pain and fever relief";
+
+
+            document.getElementById(
+                "uses"
+            ).textContent =
+                "Headache, fever and mild pain";
+
+
+            document.getElementById(
+                "form"
+            ).textContent =
+                "Tablet";
+
+
+            document.getElementById(
+                "resultCard"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "resultCard"
+            ).scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        /* CLEAR */
+
+        function clearScanner() {
+
+            document.getElementById(
+                "imageInput"
+            ).value = "";
+
+
+            document.getElementById(
+                "imagePreview"
+            ).src = "";
+
+
+            document.getElementById(
+                "previewContainer"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "resultCard"
+            ).style.display = "none";
+
+        }
+
+
+
+        /* DASHBOARD */
+
+        function goDashboard() {
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

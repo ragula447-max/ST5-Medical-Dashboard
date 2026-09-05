@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ST5 - Medical Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f9fc;
+            color: #1d2b36;
+        }
+
+        /* HEADER */
+
+        header {
+            height: 70px;
+            background: linear-gradient(135deg, #0077b6, #00a6d6);
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .menu {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu button {
+    border: none;
+    background: transparent;
+    color: white;
+
+    padding: 9px 10px;
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu button:hover {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            border: none;
+            background: white;
+            color: #0077b6;
+
+            padding: 9px 18px;
+            border-radius: 7px;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* MAIN */
+
+        main {
+            padding: 35px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #71808c;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 80, 120, 0.08);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 10px 25px rgba(0, 80, 120, 0.15);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #71808c;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:600px) {
+
+            header {
+                padding: 0 18px;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ST5
+        </div>
+        
+        <nav class="menu">
+
+    <button onclick="openMedicine()">💊 Medicine</button>
+
+    <button onclick="openReminder()">⏰ Reminder</button>
+
+    <button onclick="openHealth()">❤️ Health</button>
+
+    <button onclick="openScanner()">📷 Scanner</button>
+
+    <button onclick="openAssistant()">🤖 Assistant</button>
+
+    <button onclick="openProfile()">👤 Profile</button>
+
+</nav>
+
+        <div class="user-area">
+
+            <span id="usernameDisplay">
+                User
+            </span>
+
+            <button
+                class="logout-btn"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN DASHBOARD -->
+
+    <main>
+
+        <div class="welcome">
+
+            <h1>
+                Medical Dashboard
+            </h1>
+
+            <p>
+                Welcome to your ST5 smart medical system.
+            </p>
+
+        </div>
+
+
+        <!-- DASHBOARD CARDS -->
+
+        <div class="cards">
+
+
+            <div
+                class="card"
+                onclick="openMedicine()">
+
+                <div class="icon">
+                    💊
+                </div>
+
+                <h2>
+                    Medicine
+                </h2>
+
+                <p>
+                    Search medicines and view
+                    important medicine information.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openReminder()">
+
+                <div class="icon">
+                    ⏰
+                </div>
+
+                <h2>
+                    Medicine Reminder
+                </h2>
+
+                <p>
+                    Set and manage your medicine
+                    schedules and reminders.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openHealth()">
+
+                <div class="icon">
+                    ❤️
+                </div>
+
+                <h2>
+                    Health Monitoring
+                </h2>
+
+                <p>
+                    Monitor important health
+                    information and measurements.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="openAssistant()">
+
+                <div class="icon">
+                    🤖
+                </div>
+
+                <h2>
+                    Health Assistant
+                </h2>
+
+                <p>
+                    Get general health assistance
+                    through the ST5 assistant.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* 
+           Display registered username
+        */
+
+        const savedUser = localStorage.getItem("st5User");
+
+if (savedUser) {
+
+    try {
+
+        const user = JSON.parse(savedUser);
+
+        document.getElementById(
+            "usernameDisplay"
+        ).textContent = user.username || "User";
+
+    } catch (error) {
+
+        console.error(
+            "Invalid st5User data:",
+            error
+        );
+
+        localStorage.removeItem("st5User");
+
+        document.getElementById(
+            "usernameDisplay"
+        ).textContent = "User";
+
+    }
+
+}
+
+
+        /*
+           Logout
+        */
+
+        function logout() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /*
+           These functions will connect
+           to the next pages later.
+        */
+
+        function openMedicine() {
+
+            window.location.href = "medicine.html";
+
+        }
+
+
+        function openReminder() {
+
+             window.location.href = "reminder.html";
+        }
+
+
+        function openHealth() {
+
+             window.location.href = "health.html";
+        }
+        
+        function openScanner() {
+            
+             window.location.href = "scanner.html";
+        }
+
+        function openProfile() {
+
+             window.location.href = "profile.html";
+
+        }
+
+        function openAssistant() {
+
+             window.location.href = "assistant.html";
+        }
+
+    </script>
+
+</body>
+
+</html>
